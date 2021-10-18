@@ -61,27 +61,44 @@ return this.root();
   }
 
   remove(data) {
-    
-      let treeMoving = function(start) {
-        if (start) {
-          if(data < start.data && start.left !== null) {
-            if(start.left.data === data) {
-              start.left = null;
-            }
-          return treeMoving(start.left);
-          } else if (data > start.data && start.right !== null) {
-            if(start.right.data === data) {
-              start.right = null;
-            }
-          return treeMoving(start.right);
-          } else if (data == start.data) {
-          start = null;
-          } 
+   
+
+    let treeMoving = function(start){
+      if(!start){
+        return null;
+      }
+
+      if(data < start.data){
+        start.left=treeMoving(start.left,data);
+        return start;
+      } else if(start.data<data){
+        start.right=treeMoving(start.right, data);
+        return start;
+      }
+      else{
+        if (!start.left && !start.right){
+          return null;
         }
-    
-        }
-        treeMoving(this.root());
-    
+        if (!start.left) {
+          start=start.right;
+          return start;
+         }
+         if (!start.right) {
+          start=start.left;
+          return start;
+         }
+
+         let minFromRight= start.right;
+         while(minFromRight.left){
+           minFromRight=minFromRight.left;
+         }
+         start.data= minFromRight.data;
+         start.right=treeMoving(start.right, minFromRight.data);
+         return start;
+      }
+      
+    }
+    this.rootTree=treeMoving(this.rootTree, data);
   }
 
   min() {

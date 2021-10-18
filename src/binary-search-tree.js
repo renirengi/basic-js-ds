@@ -61,9 +61,7 @@ return this.root();
   }
 
   remove(data) {
-   
-
-    let treeMoving = function(start){
+     let treeMoving = function(start, data){
       if(!start){
         return null;
       }
@@ -71,18 +69,22 @@ return this.root();
       if(data < start.data){
         start.left=treeMoving(start.left,data);
         return start;
-      } else if(start.data<data){
+
+      } else if(start.data < data){
         start.right=treeMoving(start.right, data);
         return start;
       }
+
       else{
         if (!start.left && !start.right){
           return null;
         }
+
         if (!start.left) {
           start=start.right;
           return start;
          }
+         
          if (!start.right) {
           start=start.left;
           return start;

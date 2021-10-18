@@ -61,7 +61,7 @@ return this.root();
   }
 
   remove(data) {
-    remove(data) {
+    
       let treeMoving = function(start) {
         if (start) {
           if(data < start.data && start.left !== null) {
@@ -81,7 +81,7 @@ return this.root();
     
         }
         treeMoving(this.root());
-    }
+    
   }
 
   min() {

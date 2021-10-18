@@ -5,19 +5,20 @@ const { Node } = require('../extensions/list-tree.js');
 
 module.exports = class BinarySearchTree {
   constructor(){
-    this.root=null;
+    this.rootTree=null;
   }
-
-  getRoot() {
-    return this.root;
+  
+  root(){
+    return this.rootTree;
   }
 
   add(data) {
-  let node = new Node(data);
-  if (this.root === null) {
-    this.root = node;
-  }
-  let treeMoving = function(start) {
+    let node = new Node(data);
+    
+    if (this.rootTree === null) {
+    this.rootTree = node;
+    }
+    let treeMoving = function(start) {
     if (data > start.data && start.right === null) {
       start.right = node;
     } else if (data < start.data && start.left === null) {
@@ -30,7 +31,7 @@ module.exports = class BinarySearchTree {
     }
 
   }
-  treeMoving(this.root);
+  treeMoving(this.rootTree);
   }
 
 
@@ -39,33 +40,53 @@ module.exports = class BinarySearchTree {
   }
 
   find(data) {
-
     let treeMoving = function(start) {
-        if(data < start.data && start.left) {
-          treeMoving(start.left);
-        } else if (data > start.data && start.right) {
-          treeMoving(start.right);
-        } else if (data === start.data) {
-          return start;
-        } 
-
-        return null;
-      
-      }
+      if(data < start.data && start.left !== null) {
+        return treeMoving(start.left);
+      } else if (data > start.data && start.right !== null) {
+        return treeMoving(start.right);
+      } else if (data == start.data) {
+        return start;
+      } 
+      return null;
     
-    return treeMoving(this.getRoot());
+  }
+
+  if (this.root()) {
+  return treeMoving(this.root());
+}
+return this.root();
+  
+    
   }
 
   remove(data) {
-  let currentNode = this.find(data);
-  if(currentNode && currentNode.right) {
-    currentNode = currentNode.right;
-  }
+    remove(data) {
+      let treeMoving = function(start) {
+        if (start) {
+          if(data < start.data && start.left !== null) {
+            if(start.left.data === data) {
+              start.left = null;
+            }
+          return treeMoving(start.left);
+          } else if (data > start.data && start.right !== null) {
+            if(start.right.data === data) {
+              start.right = null;
+            }
+          return treeMoving(start.right);
+          } else if (data == start.data) {
+          start = null;
+          } 
+        }
+    
+        }
+        treeMoving(this.root());
+    }
   }
 
   min() {
-    if (this.root !== null) {
-    let min = this.getRoot().data;
+    if (this.rootTree !== null) {
+    let min = this.root().data;
     let goLeft = function(start) {
       if (start.left) {
         min = start.left.data;
@@ -73,14 +94,14 @@ module.exports = class BinarySearchTree {
       }
       return min;
     } 
-    return goLeft(this.getRoot());
+    return goLeft(this.root());
   }
     return null;
   }
 
   max() {
-  if (this.root !== null) {
-    let max = this.getRoot().data;
+  if (this.rootTree !== null) {
+    let max = this.root().data;
     let goRight = function(start) {
       if (start.right) {
         max = start.right.data;
@@ -88,7 +109,7 @@ module.exports = class BinarySearchTree {
       }
       return max;
     } 
-    return goRight(this.getRoot());
+    return goRight(this.root());
   }
     return null;
   }
